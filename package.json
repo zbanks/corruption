@@ -1,0 +1,13 @@
+{
+  "name": "corruption",
+  "version": "0.0.1",
+  "description": "Group testing",
+  "main": "index.js",
+  "author": "Zach Banks",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "express": "3.4.8"
+    "socket.io": "1.0.6"
+  }
+}
