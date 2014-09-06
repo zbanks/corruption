@@ -84,7 +84,8 @@ io.on('connection', function(socket){
     socket.on("questions:read", function(data, callback){
         var questions = _.clone(test.questions);
         _.each(questions, function(val, key){
-            questions[key].myAnswer = questions[key].answers[clientHash] || null;
+            var qHash = sha1(clientName + "|" +  questions[key].number.toString());
+            questions[key].myAnswer = questions[key].answers[qHash] || null;
         });
         callback(null, questions);
     });
@@ -92,10 +93,11 @@ io.on('connection', function(socket){
         var number = data.number;
         var answer = data.myAnswer;
         var q = _(test.questions).findWhere({number: number});
+        var qHash = sha1(clientName + "|" +  number.toString());
         if(q){ 
-            q.answers[clientHash] = answer;
+            q.answers[qHash] = answer;
         }
-        data.answers[clientHash] = answer;
+        data.answers[qHash] = answer;
 
         socket.emit("question/" + number + ":update", data);
         socket.broadcast.emit("question/" + number + ":update", data);
